@@ -16,7 +16,7 @@ public class GeographyService : IGeographyService
         _countryRepo = contryRepo;
     }
 
-    public async Task Add(string cityName, string countryName)
+    public async void Add(string cityName, string countryName)
     {
         try
         {
