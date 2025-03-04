@@ -29,7 +29,7 @@ public class GeographyController : ControllerBase
         }
         try
         {
-            await _geoService.Add(request.CityName, request.CountryName);
+            _geoService.Add(request.CityName, request.CountryName);
             return Ok();
         }
         catch (Exception ex)
