@@ -1,0 +1,7 @@
+POST http://localhost:5145/api/geography
+Content-Type: application/json
+
+{
+  "cityName": "SampleCity",
+  "countryName": "SampleCountry"
+}
