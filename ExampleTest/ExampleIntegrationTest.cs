@@ -22,11 +22,13 @@ public class ExampleIntegrationTest : IClassFixture<ExampleApplicationFactory>
         Conditions when this test passes:
         1. await is *not* used in GeographyController before _geoService.Add(...)
         2. IGeographyService.Add(...) and GeographyService.Add(...) returns Task instead of void
-        3. CountryRepository.Get() is implemented correctly: await _dbContext.Countries.FirstOrDefaultAsync(c => c.Name == name);
+        3. CountryRepository.Get() is implemented *incorrectly*: _dbContext.Countries.FirstOrDefault(c => c.Name == name);
 
         Because of the missing await in the controller the method will return a 200 status code
         prematurely and won't wait for the database inserts to go through, disposing the database
-        context before any records could have been inserted.
+        context before any records could have been inserted. However since an intermediate
+        method call was incorrectly implemented (and was made synchronous) the first insert will
+        actually go through.
 
         Also, this test runs correctly from VS Code (using the C# DevKit extension) and via dotnet test command-line command.
     */
@@ -48,7 +50,7 @@ public class ExampleIntegrationTest : IClassFixture<ExampleApplicationFactory>
         }, TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
 
-        Assert.Equal(0, context.Countries.Count());
+        Assert.Equal(1, context.Countries.Count());
         Assert.Equal(0, context.Cities.Count());
     }
 }

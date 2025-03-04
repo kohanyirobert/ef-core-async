@@ -18,5 +18,5 @@ public class CountryRepository : ICountryRepository
         return country;
     }
 
-    public async Task<Country?> Get(string name) => await _dbContext.Countries.FirstOrDefaultAsync(c => c.Name == name);
+    public async Task<Country?> Get(string name) => _dbContext.Countries.FirstOrDefault(c => c.Name == name);
 }
